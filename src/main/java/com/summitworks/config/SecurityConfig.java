@@ -1,43 +1,35 @@
 package com.summitworks.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    // private static final String[] WHITE_LIST_URLS = {
+
+    //     "/kitchen/create"
+    // };
 
     @Bean
-    AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(new BCryptPasswordEncoder());
-        return provider;
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .antMatchers("/")
-            .permitAll()
-            .antMatchers("/kitchen/**")
-            .hasAuthority("KITCHEN")
-            .antMatchers("/customer/**")
-            .hasAuthority("CUSTOMER")
-            .anyRequest()
-            .authenticated()
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.cors()
             .and()
-            .httpBasic();
+            .csrf()
+            .disable()
+            .authorizeHttpRequests()
+            .antMatchers("/kitchen/**").hasRole("KITCHEN")
+            .antMatchers("/customer/**").hasRole("BUYER")
+            .antMatchers("/**").permitAll();
+        return http.build();
     }
 }

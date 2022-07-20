@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.summitworks.model.Customer;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Long> {
+public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     
     Customer findByEmail(String email);
 }
