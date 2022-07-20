@@ -39,4 +39,11 @@ public class CustomerService {
         return customerList;
     }
     
+    public Customer findCustomerById(int id) {
+        Optional<Customer> customer = this.customerRepository.findById(id);
+        if(customer.isPresent()) {
+            return customer.get();
+        }
+        return null;
+    }
 }

@@ -37,6 +37,6 @@ public class KitchenController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Kitchen>> getAllUsers() {
-        return new ResponseEntity<>(this.kitchenService.findAllKitchens(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(this.kitchenService.findAllKitchens(), HttpStatus.OK);
     }
 }

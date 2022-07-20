@@ -38,6 +38,6 @@ public class CustomerController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Customer>> getAllUsers() {
-        return new ResponseEntity<>(this.customerService.findAllCustomers(), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(this.customerService.findAllCustomers(), HttpStatus.OK);
     }
 }

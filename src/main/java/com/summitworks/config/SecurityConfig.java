@@ -27,8 +27,8 @@ public class SecurityConfig {
             .csrf()
             .disable()
             .authorizeHttpRequests()
-            .antMatchers("/kitchen/**").hasRole("KITCHEN")
-            .antMatchers("/customer/**").hasRole("BUYER")
+            // .antMatchers("/kitchen/**").hasAuthority("KITCHEN")
+            // .antMatchers("/customer/**").hasAuthority("CUSTOMER")
             .antMatchers("/**").permitAll();
         return http.build();
     }
