@@ -4,11 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 
 import com.summitworks.model.Kitchen;
 import com.summitworks.repository.KitchenRepository;
@@ -16,8 +12,11 @@ import com.summitworks.repository.KitchenRepository;
 @Service
 public class KitchenService {
     
-    @Autowired
     private KitchenRepository kitchenRepository;
+
+    public KitchenService (KitchenRepository kitchenRepository) {
+        this.kitchenRepository = kitchenRepository;
+    }
 
     public Kitchen createKitchen(Kitchen kitchen) {
         Optional<Kitchen> optionalKitchen = this.kitchenRepository.findById(kitchen.getId());

@@ -2,7 +2,6 @@ package com.summitworks.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +17,11 @@ import com.summitworks.service.KitchenService;
 @RequestMapping("/kitchen")
 public class KitchenController {
     
-    @Autowired
     private KitchenService kitchenService;
+
+    public KitchenController(KitchenService kitchenService) {
+        this.kitchenService = kitchenService;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestBody Kitchen kitchen){

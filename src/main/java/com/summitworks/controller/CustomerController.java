@@ -18,8 +18,11 @@ import com.summitworks.service.CustomerService;
 @RequestMapping("/customer")
 public class CustomerController {
     
-    @Autowired
     private CustomerService customerService;
+
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
     
     @PostMapping("/create")
     public ResponseEntity<String> createUser(@RequestBody Customer customer){

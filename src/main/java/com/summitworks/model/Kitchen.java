@@ -16,7 +16,7 @@ public class Kitchen {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     
     @Column(name = "service_provider_name")
     private String serviceProviderName;

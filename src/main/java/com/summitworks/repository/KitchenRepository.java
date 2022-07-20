@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.summitworks.model.Kitchen;
 
 @Repository
-public interface KitchenRepository extends JpaRepository<Kitchen, Long> {
+public interface KitchenRepository extends JpaRepository<Kitchen, Integer> {
     
 }
