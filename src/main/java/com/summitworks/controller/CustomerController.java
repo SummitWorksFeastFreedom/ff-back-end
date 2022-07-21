@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import com.summitworks.service.CustomerService;
 
 @RestController
 @RequestMapping("/customer")
+@CrossOrigin(origins = "https://resonant-kringle-e96671.netlify.app/")
 public class CustomerController {
     
     private CustomerService customerService;
@@ -48,7 +50,6 @@ public class CustomerController {
         return new ResponseEntity<>(this.customerService.findAllCustomers(), HttpStatus.OK);
     }
 
-    // Get customer by email
     @GetMapping("/{email}")
     public ResponseEntity<Customer> getCustomerByEmail(@PathVariable String email) {
         Customer customer = this.customerService.findCustomerByEmail(email);
