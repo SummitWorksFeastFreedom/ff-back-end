@@ -21,4 +21,8 @@ public class Kitchen {
     @Column(name = "service_provider_name")
     private String serviceProviderName;
 
+    private String address;
+    private String phone;
+    private String email;
+
 }
