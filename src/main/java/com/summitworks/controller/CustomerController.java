@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.summitworks.model.Customer;
@@ -22,6 +24,11 @@ public class CustomerController {
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
+    }
+
+    @GetMapping
+    public String hello() {
+        return null;
     }
     
     @PostMapping("/create")
@@ -39,5 +46,16 @@ public class CustomerController {
     @GetMapping("/all")
     public ResponseEntity<List<Customer>> getAllUsers() {
         return new ResponseEntity<>(this.customerService.findAllCustomers(), HttpStatus.OK);
+    }
+
+    // Get customer by email
+    @GetMapping("/{email}")
+    public ResponseEntity<Customer> getCustomerByEmail(@PathVariable String email) {
+        Customer customer = this.customerService.findCustomerByEmail(email);
+        if(customer != null){
+            return new ResponseEntity<>(customer, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
