@@ -32,7 +32,7 @@ public class CustomerController {
     }
     
     @PostMapping("/create")
-    public ResponseEntity<String> createUser(@RequestBody Customer customer){
+    public HttpStatus createUser(@RequestBody Customer customer){
         ResponseEntity<String> response;
         Customer newCustomer = this.customerService.createCustomer(customer);
         if(newCustomer != null){
@@ -40,7 +40,7 @@ public class CustomerController {
         } else {
             response = new ResponseEntity<>("Customer already exists", HttpStatus.CONFLICT);
         }
-        return response;
+        return response.getStatusCode();
     }
 
     @GetMapping("/all")
