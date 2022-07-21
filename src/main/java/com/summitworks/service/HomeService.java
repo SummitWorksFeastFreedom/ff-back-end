@@ -18,17 +18,17 @@ public class HomeService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public String login(String email, String password) {
-        String response = "";
+    public Customer login(String email, String password) {
+        Customer response;
         Customer customer = customerRepository.findByEmail(email);
         if (customer != null) {
             if (passwordEncoder.matches(password, customer.getPassword())) {
-                response = "Login Successful";
+                response = customer;
             } else {
-                response = "Invalid Password";
+                response = null;
             }
         } else {
-            response = "Invalid Email";
+            response = null;
         }
         return response;
     }
