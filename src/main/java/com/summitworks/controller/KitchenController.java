@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +15,6 @@ import com.summitworks.service.KitchenService;
 
 @RestController
 @RequestMapping("/kitchen")
-@CrossOrigin(origins = "https://resonant-kringle-e96671.netlify.app/")
 public class KitchenController {
     
     private KitchenService kitchenService;
@@ -26,15 +24,15 @@ public class KitchenController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createUser(@RequestBody Kitchen kitchen){
+    public HttpStatus createUser(@RequestBody Kitchen kitchen){
         ResponseEntity<String> response;
-        Kitchen newCustomer = this.kitchenService.createKitchen(kitchen);
-        if(newCustomer != null){
+        Kitchen newKitchen = this.kitchenService.createKitchen(kitchen);
+        if(newKitchen != null){
             response = new ResponseEntity<>("Kitchen created successfully", HttpStatus.CREATED);
         } else {
             response = new ResponseEntity<>("Kitchen already exists", HttpStatus.CONFLICT);
         }
-        return response;
+        return response.getStatusCode();
     }
 
     @GetMapping("/all")

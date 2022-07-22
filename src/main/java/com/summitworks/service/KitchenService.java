@@ -1,9 +1,7 @@
 package com.summitworks.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.summitworks.model.Kitchen;
@@ -19,11 +17,14 @@ public class KitchenService {
     }
 
     public Kitchen createKitchen(Kitchen kitchen) {
-        Optional<Kitchen> optionalKitchen = this.kitchenRepository.findById(kitchen.getId());
-        if(optionalKitchen.isEmpty()){
-            return this.kitchenRepository.save(kitchen);
-        }
-        return null;
+        Kitchen newKitchen = new Kitchen();
+        newKitchen.setId(0);
+        newKitchen.setServiceProviderName(kitchen.getServiceProviderName());
+        newKitchen.setAddress(kitchen.getAddress());
+        newKitchen.setEmail(kitchen.getEmail());
+        newKitchen.setPhone(kitchen.getPhone());
+        kitchenRepository.save(newKitchen);
+        return newKitchen;
     }
 
     public List<Kitchen> findAllKitchens() {
