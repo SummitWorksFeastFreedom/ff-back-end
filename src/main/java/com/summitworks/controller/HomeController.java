@@ -5,11 +5,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.summitworks.model.Customer;
 import com.summitworks.service.HomeService;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class HomeController {
     
     @Autowired

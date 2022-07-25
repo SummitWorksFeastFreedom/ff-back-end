@@ -1,17 +1,25 @@
 package com.summitworks.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.summitworks.model.Customer;
 import com.summitworks.repository.CustomerRepository;
 
 @Service
-public class CustomerService {
+@Transactional
+public class CustomerService implements UserDetailsService {
     
     @Autowired
     private CustomerRepository customerRepository;
@@ -19,16 +27,20 @@ public class CustomerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Customer createCustomer(Customer customer) {
-        Customer newCustomer = new Customer();
-        newCustomer.setId(0);
-        newCustomer.setFirstName(customer.getFirstName());
-        newCustomer.setLastName(customer.getLastName());
-        newCustomer.setEmail(customer.getEmail());
-        newCustomer.setPassword(passwordEncoder.encode(customer.getPassword()));
-        newCustomer.setRole(customer.getRole());
-        customerRepository.save(newCustomer);
-        return newCustomer;
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Customer user = customerRepository.findByEmail(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+    }
+
+    public Customer createCustomer(Customer user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return customerRepository.save(user);
     }
 
     public List<Customer> findAllCustomers() {
